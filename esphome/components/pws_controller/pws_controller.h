@@ -5,7 +5,7 @@
 #include "esphome/components/uart/uart.h"
 
 namespace esphome {
-namespace pws_controller {
+namespace pwscontroller {
 
 class PwsControllerComponent : public PollingComponent, public uart::UARTDevice {
  public:

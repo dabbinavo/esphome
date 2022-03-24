@@ -2,7 +2,7 @@
 #include "esphome/core/log.h"
 
 namespace esphome {
-namespace pws_controller {
+namespace pwscontroller {
 
 static const char *const TAG = "pws_controller";
 
