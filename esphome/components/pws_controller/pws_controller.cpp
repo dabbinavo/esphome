@@ -19,11 +19,10 @@ float PwsController::get_setup_priority() const {
 }
 
 void PwsController::loop() {
-  ESP_LOGI(TAG, "this is the loooooop...");
 }
 
 void PwsController::update() {
-
+  ESP_LOGI(TAG, "this is the loooooop...");
 }
 
 void PwsController::dump_config() {
