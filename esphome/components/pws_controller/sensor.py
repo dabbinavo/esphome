@@ -22,7 +22,7 @@ CONFIG_SCHEMA = (
     .extend(uart.UART_DEVICE_SCHEMA)
 )
 FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
-    "pwscontroller", baud_rate=115200, require_rx=True
+    "pwscontroller", baud_rate=4800, require_rx=True
 )
 
 async def to_code(config):

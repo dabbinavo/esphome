@@ -17,6 +17,11 @@ class PwsController : public PollingComponent, public uart::UARTDevice {
   void update() override;
   void dump_config() override;
 
+protected:
+  bool read_write(std::vector<uint8_t> &data);
+  std::vector<uint8_t> construct_basic_frame(uint8_t id, uint8_t command, uint16_t payload_size);
+  bool write_empty(uint8_t id);
+
 };
 
 }  // namespace cse7766
