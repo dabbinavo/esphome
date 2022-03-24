@@ -32,5 +32,5 @@ void PwsController::dump_config() {
   this->check_uart_settings(115200);
 }
 
-}  // namespace cse7766
+}  // namespace pwscontroller
 }  // namespace esphome
