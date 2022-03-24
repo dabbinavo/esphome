@@ -7,8 +7,9 @@
 namespace esphome {
 namespace pwscontroller {
 
-class PwsControllerComponent : public PollingComponent, public uart::UARTDevice {
+class PwsController : public PollingComponent, public uart::UARTDevice {
  public:
+  PwsController();
 
   void setup() override;
   float get_setup_priority() const override;

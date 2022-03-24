@@ -8,14 +8,14 @@ from esphome.const import (
 DEPENDENCIES = ["uart"]
 
 pws_controller_ns = cg.esphome_ns.namespace("pwscontroller")
-PwsControllerComponent = pws_controller_ns.class_(
-    "PwsControllerComponent", cg.PollingComponent, uart.UARTDevice
+PwsController = pws_controller_ns.class_(
+    "PwsController", cg.PollingComponent, uart.UARTDevice
 )
 
 CONFIG_SCHEMA = (
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(PwsControllerComponent)
+            cv.GenerateID(): cv.declare_id(PwsController)
         }
     )
     .extend(cv.polling_component_schema("1s"))

@@ -6,23 +6,27 @@ namespace pwscontroller {
 
 static const char *const TAG = "pws_controller";
 
-void PwsControllerComponent::setup() {
+PwsController::PwsController() : PollingComponent(1000) {
 
 }
 
-float PwsControllerComponent::get_setup_priority() const {
+void PwsController::setup() {
+
+}
+
+float PwsController::get_setup_priority() const {
   return setup_priority::DATA;
 }
 
-void PwsControllerComponent::loop() {
+void PwsController::loop() {
   ESP_LOGI(TAG, "this is the loooooop...");
 }
 
-void PwsControllerComponent::update() {
+void PwsController::update() {
 
 }
 
-void PwsControllerComponent::dump_config() {
+void PwsController::dump_config() {
   ESP_LOGCONFIG(TAG, "PwsController has no config");
   LOG_UPDATE_INTERVAL(this);
   this->check_uart_settings(115200);
