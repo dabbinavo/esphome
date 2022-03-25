@@ -2,12 +2,12 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/sensor/sensor.h"
-#include "esphome/components/uart/uart.h"
+#include "pws_sensor.h"
 
 namespace esphome {
 namespace pwscontroller {
 
-class PwsController : public PollingComponent, public uart::UARTDevice {
+class PwsController : public PollingComponent {
  public:
   PwsController();
 
@@ -22,6 +22,8 @@ protected:
   std::vector<uint8_t> construct_basic_frame(uint8_t id, uint8_t command, uint16_t payload_size);
   bool write_empty(uint8_t id);
 
+private:
+  PwsSensor *sensor1;
 };
 
 }  // namespace cse7766
