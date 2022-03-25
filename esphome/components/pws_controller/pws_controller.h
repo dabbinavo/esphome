@@ -7,7 +7,7 @@
 namespace esphome {
 namespace pwscontroller {
 
-class PwsController : public PollingComponent {
+class PwsController : public PollingComponent, public uart::UARTDevice {
  public:
   PwsController();
 

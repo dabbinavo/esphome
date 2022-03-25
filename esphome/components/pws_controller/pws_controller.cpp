@@ -44,7 +44,7 @@ void PwsController::update() {
 void PwsController::dump_config() {
   ESP_LOGCONFIG(TAG, "PwsController has no config");
   LOG_UPDATE_INTERVAL(this);
-  // this->check_uart_settings(4800);
+  this->check_uart_settings(4800);
 }
 
 }  // namespace pwscontroller
