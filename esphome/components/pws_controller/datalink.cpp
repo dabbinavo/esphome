@@ -55,7 +55,7 @@ bool Datalink::read_ram(uint8_t id, uint8_t address, std::vector<uint8_t> &data)
   if (!res) {
     return false;
   }
-  std::copy(buffer.begin() + 5, buffer.end(), data);
+  std::copy(buffer.begin() + 5, buffer.end(), data.begin());
   return true;
 }
 
@@ -81,7 +81,7 @@ bool Datalink::read_eeprom(uint8_t id, uint8_t address, std::vector<uint8_t> &da
   if (!res) {
     return false;
   }
-  std::copy(buffer.begin() + 5, buffer.end(), data);
+  std::copy(buffer.begin() + 5, buffer.end(), data.begin());
   return true;
 }
 
