@@ -24,20 +24,21 @@ void PwsController::loop() {
 
 void PwsController::update() {
   bool res;
+  ESP_LOGI(TAG, "update loop");
   res = sensor1->check_device();
   if (res) {
     ESP_LOGI(TAG, "sensor 1 responded!");
+    res = sensor1->read_config();
+    if (res) {
+      ESP_LOGI(TAG, "successfully read config");
+      sensor1->dump_config();
+    }
+    else {
+      ESP_LOGW(TAG, "unable to read config...");
+    }
   }
   else {
     ESP_LOGW(TAG, "sensor 1 not detected...");
-  }
-  res = sensor1->read_config();
-  if (res) {
-    ESP_LOGI(TAG, "successfully read config");
-    sensor1->dump_config();
-  }
-  else {
-    ESP_LOGW(TAG, "unable to read config...");
   }
 }
 
