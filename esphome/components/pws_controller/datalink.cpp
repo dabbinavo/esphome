@@ -11,9 +11,10 @@ Datalink::Datalink() {
 
 bool Datalink::read_write(std::vector<uint8_t> &data) {
   bool res;
+  ESP_LOGI(TAG, "read_write enter");
   
   // Clear all data in the buffers
-  flush();
+  //flush();
 
   // Write data on serial port
   ESP_LOGI(TAG, "before write_array");
