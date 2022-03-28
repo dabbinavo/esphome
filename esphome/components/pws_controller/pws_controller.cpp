@@ -8,7 +8,7 @@ namespace pwscontroller {
 static const char *const TAG = "pws_controller";
 
 PwsController::PwsController() : PollingComponent(1000) {
-  sensor1 = new PwsSensor(0x01);
+  sensor1 = new PwsSensor(0x01, this);
 }
 
 void PwsController::setup() {

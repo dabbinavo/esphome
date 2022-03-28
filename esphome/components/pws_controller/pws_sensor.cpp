@@ -6,7 +6,9 @@ namespace pwscontroller {
 
 static const char *const TAG = "pws_sensor";
 
-PwsSensor::PwsSensor(uint8_t id) {
+PwsSensor::PwsSensor(uint8_t id, uart::UARTDevice* uart_device)
+  : Datalink(uart_device)
+{
   this->id = id;
 }
 

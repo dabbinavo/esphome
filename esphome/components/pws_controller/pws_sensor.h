@@ -9,7 +9,7 @@ namespace pwscontroller {
 
 class PwsSensor : public Datalink {
 public:
-  PwsSensor(uint8_t id);
+  PwsSensor(uint8_t id, uart::UARTDevice* uart_device);
 
   typedef struct {
     char name[20];

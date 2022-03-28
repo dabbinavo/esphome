@@ -6,7 +6,8 @@ namespace pwscontroller {
 
 static const char *const TAG = "pws_datalink";
 
-Datalink::Datalink() {
+Datalink::Datalink(uart::UARTDevice* uart_device) {
+  this->uart = uart_device;
 }
 
 bool Datalink::read_write(std::vector<uint8_t> &data) {
@@ -18,11 +19,11 @@ bool Datalink::read_write(std::vector<uint8_t> &data) {
 
   // Write data on serial port
   ESP_LOGI(TAG, "before write_array");
-  write_array(data);
+  uart->write_array(data);
   ESP_LOGI(TAG, "after write_array");
 
   // Read array back from buffer
-  res = read_array(data.data(), data.size());
+  res = uart->read_array(data.data(), data.size());
   if (!res) {
     ESP_LOGE(TAG, "read_array error");
   }

@@ -5,9 +5,9 @@
 namespace esphome {
 namespace pwscontroller {
 
-class Datalink : public uart::UARTDevice {
+class Datalink {
 public:
-  Datalink();
+  Datalink(uart::UARTDevice* uart_device);
 
 protected:
   bool read_write(std::vector<uint8_t> &data);
@@ -19,6 +19,9 @@ protected:
   bool write_eeprom(uint8_t id, uint8_t address, std::vector<uint8_t> &data);
   bool byte_2_bool(uint8_t value);
   uint8_t bool_2_byte(bool value);
+
+private:
+  uart::UARTDevice *uart;
 };
 
 }  // namespace pwscontroller
