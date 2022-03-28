@@ -66,7 +66,7 @@ bool PwsSensor::set_state(state_t state) {
   return true;
 }
 
-bool PwsSensor::dump_config(void) {
+void PwsSensor::dump_config(void) {
   ESP_LOGI(TAG, "| Sensor Config | Value |");
   ESP_LOGI(TAG, "|:--------------|------:|");
   ESP_LOGI(TAG, "| name          | %.20s |", this->config.name);

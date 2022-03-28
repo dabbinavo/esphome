@@ -34,7 +34,7 @@ public:
   bool set_valve_time(uint8_t seconds);
   bool set_pump_time(uint8_t seconds);
   bool set_state(state_t state);
-  bool dump_config(void);
+  void dump_config(void);
 
 private:
   uint8_t id;
