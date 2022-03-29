@@ -11,7 +11,14 @@ Datalink::Datalink(uart::UARTDevice* uart_device) {
 }
 
 bool Datalink::read_write(std::vector<uint8_t> &data) {
+  static unsigned long last_time = 0;
   bool res;
+
+  unsigned long time_diff = millis() - last_time;
+
+  if (time_diff < 10) {
+    delay(10 - time_diff);
+  }
   
   // Clear all data in the buffers
   uart->flush();
