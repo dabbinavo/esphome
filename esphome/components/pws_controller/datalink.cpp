@@ -28,6 +28,8 @@ bool Datalink::read_write(std::vector<uint8_t> &data) {
 
   // Read array back from buffer
   res = uart->read_array(data.data(), data.size());
+  last_time = millis();
+  
   if (!res) {
     ESP_LOGE(TAG, "read_array error");
   }
