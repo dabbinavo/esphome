@@ -27,12 +27,15 @@ bool PwsSensor::read_config(void) {
   bool res;
   std::vector<uint8_t> data(0x20);
   res = read_eeprom(this->id, 0x01, data);
+  if (!res) {
+    return false;
+  }
   strncpy(this->config.name, (const char*)data.data(), 20);
   this->config.has_valve = byte_2_bool(data[20]);
   this->config.has_pump = byte_2_bool(data[21]);
-  this->config.temperature_interval = ((uint16_t)data[22] << 8) | data[23];
-  this->config.resistance_interval_running = ((uint16_t)data[24] << 8) | data[25];
-  this->config.resistance_interval_stopped = ((uint16_t)data[26] << 8) | data[27];
+  this->config.temperature_interval = ((uint16_t)data[23] << 8) | data[22];
+  this->config.resistance_interval_running = ((uint16_t)data[25] << 8) | data[24];
+  this->config.resistance_interval_stopped = ((uint16_t)data[27] << 8) | data[26];
   return true;
 }
 
@@ -42,12 +45,27 @@ bool PwsSensor::write_config(void) {
 }
 
 bool PwsSensor::read_status(void) {
-
+  bool res;
+  std::vector<uint8_t> data(5);
+  res = read_ram(this->id, 0x00, data);
+  if (!res) {
+    return false;
+  }
+  this->state = (state_t)data[0];
+  this->valve_time = get_uint16(data, 1);
+  this->pump_time = get_uint16(data, 3);
   return true;
 }
 
 bool PwsSensor::read_sensors(void) {
-
+  bool res;
+  std::vector<uint8_t> data(9);
+  res = read_ram(this->id, 0x05, data);
+  if (!res) {
+    return false;
+  }
+  this->resistance = get_uint64(data, 0);
+  this->temperature = data[8];
   return true;
 }
 

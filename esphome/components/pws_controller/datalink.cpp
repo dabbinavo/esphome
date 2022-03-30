@@ -116,6 +116,30 @@ uint8_t Datalink::bool_2_byte(bool value) {
   return value ? 0x01 : 0x00;
 }
 
+uint16_t Datalink::get_uint16(const std::vector<uint8_t> &data, uint8_t pos) {
+  return (uint16_t)(data[pos + 1] << 8)
+         | data[pos];
+}
+
+uint32_t Datalink::get_uint32(const std::vector<uint8_t> &data, uint8_t pos) {
+  return (uint32_t)(data[pos + 3] << 24)
+       | (uint32_t)(data[pos + 2] << 16)
+       | (uint32_t)(data[pos + 1] << 8)
+       | data[pos];
+}
+
+uint64_t Datalink::get_uint64(const std::vector<uint8_t> &data, uint8_t pos) {
+  return (uint64_t)(data[pos + 7] << 56)
+       | (uint64_t)(data[pos + 6] << 48)
+       | (uint64_t)(data[pos + 5] << 40)
+       | (uint64_t)(data[pos + 4] << 32)
+       | (uint64_t)(data[pos + 3] << 24)
+       | (uint64_t)(data[pos + 2] << 16)
+       | (uint64_t)(data[pos + 1] << 8)
+       | data[pos];
+}
+
+
 
 }  // namespace Datalink
 }  // namespace esphome
