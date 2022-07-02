@@ -116,29 +116,51 @@ uint8_t Datalink::bool_2_byte(bool value) {
   return value ? 0x01 : 0x00;
 }
 
-uint16_t Datalink::get_uint16(const std::vector<uint8_t> &data, uint8_t pos) {
-  return (uint16_t)(data[pos + 1] << 8)
-         | data[pos];
+uint16_t Datalink::decode_uint16(const std::vector<uint8_t> &data, uint8_t pos) {
+  return ((uint16_t)data[pos + 1] << 8)
+       | ((uint16_t)data[pos + 0] << 0);
 }
 
-uint32_t Datalink::get_uint32(const std::vector<uint8_t> &data, uint8_t pos) {
-  return (uint32_t)(data[pos + 3] << 24)
-       | (uint32_t)(data[pos + 2] << 16)
-       | (uint32_t)(data[pos + 1] << 8)
-       | data[pos];
+uint32_t Datalink::decode_uint32(const std::vector<uint8_t> &data, uint8_t pos) {
+  return ((uint32_t)data[pos + 3] << 24)
+       | ((uint32_t)data[pos + 2] << 16)
+       | ((uint32_t)data[pos + 1] <<  8)
+       | ((uint32_t)data[pos + 0] <<  0);
 }
 
-uint64_t Datalink::get_uint64(const std::vector<uint8_t> &data, uint8_t pos) {
-  return (uint64_t)(data[pos + 7] << 56)
-       | (uint64_t)(data[pos + 6] << 48)
-       | (uint64_t)(data[pos + 5] << 40)
-       | (uint64_t)(data[pos + 4] << 32)
-       | (uint64_t)(data[pos + 3] << 24)
-       | (uint64_t)(data[pos + 2] << 16)
-       | (uint64_t)(data[pos + 1] << 8)
-       | data[pos];
+uint64_t Datalink::decode_uint64(const std::vector<uint8_t> &data, uint8_t pos) {
+  return ((uint64_t)data[pos + 7] << 56)
+       | ((uint64_t)data[pos + 6] << 48)
+       | ((uint64_t)data[pos + 5] << 40)
+       | ((uint64_t)data[pos + 4] << 32)
+       | ((uint64_t)data[pos + 3] << 24)
+       | ((uint64_t)data[pos + 2] << 16)
+       | ((uint64_t)data[pos + 1] <<  8)
+       | ((uint64_t)data[pos + 0] <<  0);
 }
 
+void Datalink::encode_uint16(std::vector<uint8_t> &data, uint8_t pos, const uint16_t &value) {
+  data[pos + 1] = uint8_t(value >> 8);
+  data[pos + 0] = uint8_t(value >> 0);
+}
+
+void Datalink::encode_uint32(std::vector<uint8_t> &data, uint8_t pos, const uint32_t &value) {
+  data[pos + 3] = uint8_t(value >> 24);
+  data[pos + 2] = uint8_t(value >> 16);
+  data[pos + 1] = uint8_t(value >> 8);
+  data[pos + 0] = uint8_t(value >> 0);
+}
+
+void Datalink::encode_uint64(std::vector<uint8_t> &data, uint8_t pos, const uint64_t &value) {
+  data[pos + 7] = uint8_t(value >> 56);
+  data[pos + 6] = uint8_t(value >> 48);
+  data[pos + 5] = uint8_t(value >> 40);
+  data[pos + 4] = uint8_t(value >> 32);
+  data[pos + 3] = uint8_t(value >> 24);
+  data[pos + 2] = uint8_t(value >> 16);
+  data[pos + 1] = uint8_t(value >> 8);
+  data[pos + 0] = uint8_t(value >> 0);
+}
 
 
 }  // namespace Datalink

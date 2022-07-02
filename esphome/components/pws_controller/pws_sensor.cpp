@@ -25,7 +25,7 @@ bool PwsSensor::write_id(uint8_t id) {
 
 bool PwsSensor::read_config(void) {
   bool res;
-  std::vector<uint8_t> data(0x20);
+  std::vector<uint8_t> data(28);
   res = read_eeprom(this->id, 0x01, data);
   if (!res) {
     return false;
@@ -33,15 +33,21 @@ bool PwsSensor::read_config(void) {
   strncpy(this->config.name, (const char*)data.data(), 20);
   this->config.has_valve = byte_2_bool(data[20]);
   this->config.has_pump = byte_2_bool(data[21]);
-  this->config.temperature_interval = ((uint16_t)data[23] << 8) | data[22];
-  this->config.resistance_interval_running = ((uint16_t)data[25] << 8) | data[24];
-  this->config.resistance_interval_stopped = ((uint16_t)data[27] << 8) | data[26];
+  this->config.temperature_interval = decode_uint16(data, 22);
+  this->config.resistance_interval_running = decode_uint16(data, 24);
+  this->config.resistance_interval_stopped = decode_uint16(data, 26);
   return true;
 }
 
 bool PwsSensor::write_config(void) {
-
-  return true;
+  std::vector<uint8_t> data(0x28);
+  strncpy((char*)data.data(), this->config.name, 20);
+  data[20] = bool_2_byte(this->config.has_valve);
+  data[21] = bool_2_byte(this->config.has_pump);
+  encode_uint16(data, 22, config.temperature_interval);
+  encode_uint16(data, 24, config.resistance_interval_running);
+  encode_uint16(data, 26, config.resistance_interval_stopped);
+  return write_eeprom(this->id, 0x01, data);
 }
 
 bool PwsSensor::read_status(void) {
@@ -52,8 +58,8 @@ bool PwsSensor::read_status(void) {
     return false;
   }
   this->state = (state_t)data[0];
-  this->valve_time = get_uint16(data, 1);
-  this->pump_time = get_uint16(data, 3);
+  this->valve_time = decode_uint16(data, 1);
+  this->pump_time = decode_uint16(data, 3);
   return true;
 }
 
@@ -64,24 +70,27 @@ bool PwsSensor::read_sensors(void) {
   if (!res) {
     return false;
   }
-  this->resistance = get_uint64(data, 0);
+  this->resistance = decode_uint64(data, 0);
   this->temperature = data[8];
   return true;
 }
 
 bool PwsSensor::set_valve_time(uint8_t seconds) {
-
-  return true;
+  std::vector<uint8_t> data(2);
+  encode_uint16(data, 0, seconds);
+  return write_ram(this->id, 0x01, data);
 }
 
 bool PwsSensor::set_pump_time(uint8_t seconds) {
-
-  return true;
+  std::vector<uint8_t> data(2);
+  encode_uint16(data, 0, seconds);
+  return write_ram(this->id, 0x03, data);
 }
 
 bool PwsSensor::set_state(state_t state) {
-
-  return true;
+  std::vector<uint8_t> data(1);
+  data[0] = state;
+  return write_ram(this->id, 0x00, data);
 }
 
 void PwsSensor::dump_config(void) {

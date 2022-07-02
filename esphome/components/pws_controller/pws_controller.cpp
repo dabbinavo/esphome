@@ -1,6 +1,21 @@
 #include "pws_controller.h"
 
-#include "esphome/core/log.h"
+#include <esphome/core/log.h>
+
+#include <iostream>
+#include <sstream>
+
+template <char C>
+std::istream& expect(std::istream& in)
+{
+    if ((in >> std::ws).peek() == C) {
+        in.ignore();
+    }
+    else {
+        in.setstate(std::ios_base::failbit);
+    }
+    return in;
+}
 
 namespace esphome {
 namespace pwscontroller {
@@ -12,7 +27,7 @@ PwsController::PwsController() : PollingComponent(1000) {
 }
 
 void PwsController::setup() {
-
+  subscribe("pws/sensor/+/set/+", &PwsController::handle_mqtt_message);
 }
 
 float PwsController::get_setup_priority() const {
@@ -46,6 +61,15 @@ void PwsController::dump_config() {
   ESP_LOGCONFIG(TAG, "PwsController has no config");
   LOG_UPDATE_INTERVAL(this);
   this->check_uart_settings(4800);
+}
+
+void PwsController::handle_mqtt_message(const std::string &topic, const std::string &payload) {
+  int id;
+  char parameter[20];
+  
+  sscanf(topic.c_str(), "pws/sensor/%d/set/%s", &id, &parameter);
+
+  ESP_LOGI(TAG, "received message for id(%d) and parameter(%s)", id, parameter);
 }
 
 }  // namespace pwscontroller

@@ -1,13 +1,15 @@
 #pragma once
 
-#include "esphome/core/component.h"
-#include "esphome/components/sensor/sensor.h"
 #include "pws_sensor.h"
+
+#include <esphome/core/component.h>
+#include <esphome/components/sensor/sensor.h>
+#include <esphome/components/mqtt/custom_mqtt_device.h>
 
 namespace esphome {
 namespace pwscontroller {
 
-class PwsController : public PollingComponent, public uart::UARTDevice {
+class PwsController : public PollingComponent, public mqtt::CustomMQTTDevice, public uart::UARTDevice {
  public:
   PwsController();
 
@@ -16,6 +18,9 @@ class PwsController : public PollingComponent, public uart::UARTDevice {
   void loop() override;
   void update() override;
   void dump_config() override;
+
+private:
+  void handle_mqtt_message(const std::string &topic, const std::string &payload);
 
 protected:
   bool read_write(std::vector<uint8_t> &data);

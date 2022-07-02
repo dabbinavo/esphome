@@ -19,9 +19,12 @@ protected:
   bool write_eeprom(uint8_t id, uint8_t address, std::vector<uint8_t> &data);
   bool byte_2_bool(uint8_t value);
   uint8_t bool_2_byte(bool value);
-  uint16_t get_uint16(const std::vector<uint8_t> &data, uint8_t pos);
-  uint32_t get_uint32(const std::vector<uint8_t> &data, uint8_t pos);
-  uint64_t get_uint64(const std::vector<uint8_t> &data, uint8_t pos);
+  uint16_t decode_uint16(const std::vector<uint8_t> &data, uint8_t pos);
+  uint32_t decode_uint32(const std::vector<uint8_t> &data, uint8_t pos);
+  uint64_t decode_uint64(const std::vector<uint8_t> &data, uint8_t pos);
+  void encode_uint16(std::vector<uint8_t> &data, uint8_t pos, const uint16_t &value);
+  void encode_uint32(std::vector<uint8_t> &data, uint8_t pos, const uint32_t &value);
+  void encode_uint64(std::vector<uint8_t> &data, uint8_t pos, const uint64_t &value);
 
 private:
   uart::UARTDevice *uart;
