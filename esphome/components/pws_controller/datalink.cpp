@@ -43,7 +43,7 @@ bool Datalink::read_write(std::vector<uint8_t> &data) {
   return true;
 }
 
-bool Datalink::read_write(std::vector<uint8_t> &data) {
+bool Datalink::read_write(std::vector<uint8_t> &data, uart::UARTDevice* uart_device) {
   static unsigned long last_time = 0;
   bool res;
 
@@ -54,13 +54,13 @@ bool Datalink::read_write(std::vector<uint8_t> &data) {
   }
   
   // Clear all data in the buffers
-  uart->flush();
+  uart_device->flush();
 
   // Write data on serial port
-  uart->write_array(data);
+  uart_device->write_array(data);
 
   // Read array back from buffer
-  res = uart->read_array(data.data(), data.size());
+  res = uart_device->read_array(data.data(), data.size());
   last_time = millis();
   
   if (!res) {
