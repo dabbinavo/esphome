@@ -41,6 +41,7 @@ void PwsController::loop() {
 void PwsController::update() {
   bool res;
   ESP_LOGI(TAG, "update loop");
+  publish("pws/sensor/1/test", 314);
   res = sensor1->check_device();
   if (res) {
     ESP_LOGI(TAG, "sensor 1 responded!");
