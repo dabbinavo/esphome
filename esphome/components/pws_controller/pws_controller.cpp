@@ -57,6 +57,7 @@ void PwsController::loop() {
 
 void PwsController::update() {
   for (const auto& sensor : sensors) {
+    sensor.second->dump_config();
     sensor.second->read_sensors();
     sensor.second->dump_sensors();
   }
