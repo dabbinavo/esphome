@@ -46,7 +46,6 @@ void PwsController::update() {
     discover_devices();
   }
   for (const auto& sensor : sensors) {
-    sensor.second->dump_config();
     sensor.second->read_sensors();
     sensor.second->dump_sensors();
   }
@@ -93,26 +92,32 @@ void PwsController::handle_mqtt_message(const std::string &topic, const std::str
   if (strcmp(parameter, "config/name") == 0) {
     strncpy(sensor->second->config.name, payload.c_str(), 20);
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
   else if(strcmp(parameter, "config/valve") == 0) {
     sensor->second->config.has_valve = payload.at(0) == '1' ? true : false;
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
   else if(strcmp(parameter, "config/pump") == 0) {
     sensor->second->config.has_pump = payload.at(0) == '1' ? true : false;
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
   else if(strcmp(parameter, "config/temperature") == 0) {
     sensor->second->config.temperature_interval = atoi(payload.c_str());
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
   else if(strcmp(parameter, "config/resistance1") == 0) {
     sensor->second->config.resistance_interval_running = atoi(payload.c_str());
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
   else if(strcmp(parameter, "config/resistance2") == 0) {
     sensor->second->config.resistance_interval_stopped = atoi(payload.c_str());
     sensor->second->write_config();
+    sensor->second->dump_config();
   }
 }
 

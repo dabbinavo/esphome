@@ -106,10 +106,10 @@ void PwsSensor::dump_config(void) {
 
 
 void PwsSensor::dump_sensors(void) {
-  ESP_LOGI(TAG, "| Sensor        | Value |");
-  ESP_LOGI(TAG, "|:------------|------:|");
-  ESP_LOGI(TAG, "| Resistance  | %.9llu |", this->resistance);
-  ESP_LOGI(TAG, "| Temperature | %.3u |", this->temperature);
+  ESP_LOGI(TAG, "| Sensor(%u)  | Value |", this->id);
+  ESP_LOGI(TAG, "|:------------|------------:|");
+  ESP_LOGI(TAG, "| Resistance  | %11llu |", this->resistance);
+  ESP_LOGI(TAG, "| Temperature | %11u |", this->temperature);
 }
 
 }  // namespace pwscontroller
