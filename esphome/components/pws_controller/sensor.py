@@ -18,7 +18,7 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(PwsController)
         }
     )
-    .extend(cv.polling_component_schema("1s"))
+    .extend(cv.polling_component_schema("5s"))
     .extend(uart.UART_DEVICE_SCHEMA)
 )
 FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(

@@ -67,7 +67,7 @@ void PwsController::handle_mqtt_message(const std::string &topic, const std::str
   int id;
   char parameter[20];
   
-  sscanf(topic.c_str(), "pws/sensor/%d/set/%s", &id, &parameter);
+  sscanf(topic.c_str(), "pws/sensor/%d/set/%s", &id, parameter);
 
   ESP_LOGI(TAG, "received message for id(%d) and parameter(%s)", id, parameter);
 }
