@@ -29,7 +29,7 @@ PwsController::PwsController()
 }
 
 void PwsController::setup() {
-  subscribe("pws/sensor/+/set/+", &PwsController::handle_mqtt_message);
+  subscribe("pws/sensor/+/set/#", &PwsController::handle_mqtt_message);
 
   for (int id = 1; id < 5; id++) {
     bool res = Datalink::write_empty(this, id);
