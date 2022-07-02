@@ -35,6 +35,10 @@ public:
   bool set_pump_time(uint8_t seconds);
   bool set_state(state_t state);
   void dump_config(void);
+  void dump_sensors(void);
+
+public:
+  config_t config;
 
 private:
   uint8_t id;
@@ -43,7 +47,6 @@ private:
   uint16_t pump_time;
   uint64_t resistance;
   int8_t temperature;
-  config_t config;
 };
 
 }  // namespace pwscontroller

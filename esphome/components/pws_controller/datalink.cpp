@@ -43,6 +43,39 @@ bool Datalink::read_write(std::vector<uint8_t> &data) {
   return true;
 }
 
+bool Datalink::read_write(std::vector<uint8_t> &data) {
+  static unsigned long last_time = 0;
+  bool res;
+
+  unsigned long time_diff = millis() - last_time;
+
+  if (time_diff < 10) {
+    delay(10 - time_diff);
+  }
+  
+  // Clear all data in the buffers
+  uart->flush();
+
+  // Write data on serial port
+  uart->write_array(data);
+
+  // Read array back from buffer
+  res = uart->read_array(data.data(), data.size());
+  last_time = millis();
+  
+  if (!res) {
+    ESP_LOGE(TAG, "read_array error");
+  }
+
+  // Check if device responded
+  if (data[1] != ((data[0] >> 1) & 0x7F)) {
+    ESP_LOGW(TAG, "device not available!");
+    return false;
+  }
+
+  return true;
+}
+
 std::vector<uint8_t> Datalink::construct_basic_frame(uint8_t id, uint8_t command, uint16_t payload_size) {
   std::vector<uint8_t> ret(payload_size + 3, 0);
   ret[0] = id << 1 | 0x01;
@@ -53,6 +86,11 @@ std::vector<uint8_t> Datalink::construct_basic_frame(uint8_t id, uint8_t command
 bool Datalink::write_empty(uint8_t id) {
   auto data = construct_basic_frame(id, 0x00, 0);
   return read_write(data);
+}
+
+bool Datalink::write_empty(uart::UARTDevice* uart_device, uint8_t id) {
+  auto data = construct_basic_frame(id, 0x00, 0);
+  return read_write(data, uart_device);
 }
 
 

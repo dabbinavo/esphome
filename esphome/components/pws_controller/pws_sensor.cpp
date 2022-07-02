@@ -104,5 +104,13 @@ void PwsSensor::dump_config(void) {
   ESP_LOGI(TAG, "| res upd s [s] | %d |", this->config.resistance_interval_stopped);
 }
 
+
+void PwsSensor::dump_sensors(void) {
+  ESP_LOGI(TAG, "| Sensor        | Value |");
+  ESP_LOGI(TAG, "|:------------|------:|");
+  ESP_LOGI(TAG, "| Resistance  | %.9llu |", this->resistance);
+  ESP_LOGI(TAG, "| Temperature | %.3u |", this->temperature);
+}
+
 }  // namespace pwscontroller
 }  // namespace esphome

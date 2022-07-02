@@ -6,6 +6,8 @@
 #include <esphome/components/sensor/sensor.h>
 #include <esphome/components/mqtt/custom_mqtt_device.h>
 
+#include <map>
+
 namespace esphome {
 namespace pwscontroller {
 
@@ -28,7 +30,7 @@ protected:
   bool write_empty(uint8_t id);
 
 private:
-  PwsSensor *sensor1;
+  std::map<int, PwsSensor*> sensors;
 };
 
 }  // namespace cse7766
