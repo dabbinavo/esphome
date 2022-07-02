@@ -28,6 +28,7 @@ PwsController::PwsController() : PollingComponent(1000) {
 
 void PwsController::setup() {
   subscribe("pws/sensor/+/set/+", &PwsController::handle_mqtt_message);
+  subscribe("pws/test/1/set/valve", &PwsController::handle_mqtt_message);
 }
 
 float PwsController::get_setup_priority() const {
@@ -64,6 +65,7 @@ void PwsController::dump_config() {
 }
 
 void PwsController::handle_mqtt_message(const std::string &topic, const std::string &payload) {
+  ESP_LOGI(TAG, "received mqtt");
   int id;
   char parameter[20];
   
