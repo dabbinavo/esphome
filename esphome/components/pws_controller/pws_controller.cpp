@@ -31,7 +31,7 @@ PwsController::PwsController()
 void PwsController::setup() {
   subscribe("pws/sensor/+/set/+", &PwsController::handle_mqtt_message);
 
-  for (int id = 0; id < 10; id++) {
+  for (int id = 1; id < 5; id++) {
     bool res = Datalink::write_empty(this, id);
     if (res) {
       ESP_LOGI(TAG, "found sensor with id %u", id);
@@ -44,6 +44,8 @@ void PwsController::setup() {
       sensors[id]->dump_config();
     }
   }
+
+  ESP_LOGI(TAG, "init finished. found %u active sensors.", sensors.size());
 }
 
 float PwsController::get_setup_priority() const {
