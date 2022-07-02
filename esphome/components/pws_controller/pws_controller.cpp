@@ -30,8 +30,36 @@ PwsController::PwsController()
 
 void PwsController::setup() {
   subscribe("pws/sensor/+/set/#", &PwsController::handle_mqtt_message);
+  discover_devices();
+  ESP_LOGI(TAG, "init finished. found %u active sensors.", sensors.size());
+}
 
-  for (int id = 1; id < 5; id++) {
+float PwsController::get_setup_priority() const {
+  return setup_priority::DATA;
+}
+
+void PwsController::loop() {
+}
+
+void PwsController::update() {
+  if (sensors.size() == 0) {
+    discover_devices();
+  }
+  for (const auto& sensor : sensors) {
+    sensor.second->dump_config();
+    sensor.second->read_sensors();
+    sensor.second->dump_sensors();
+  }
+}
+
+void PwsController::dump_config() {
+  ESP_LOGCONFIG(TAG, "PwsController has no config");
+  LOG_UPDATE_INTERVAL(this);
+  this->check_uart_settings(4800);
+}
+
+void PwsController::discover_devices() {
+    for (int id = 1; id < 5; id++) {
     bool res = Datalink::write_empty(this, id);
     if (res) {
       ESP_LOGI(TAG, "found sensor with id %u", id);
@@ -44,29 +72,7 @@ void PwsController::setup() {
       sensors[id]->dump_config();
     }
   }
-
-  ESP_LOGI(TAG, "init finished. found %u active sensors.", sensors.size());
-}
-
-float PwsController::get_setup_priority() const {
-  return setup_priority::DATA;
-}
-
-void PwsController::loop() {
-}
-
-void PwsController::update() {
-  for (const auto& sensor : sensors) {
-    sensor.second->dump_config();
-    sensor.second->read_sensors();
-    sensor.second->dump_sensors();
-  }
-}
-
-void PwsController::dump_config() {
-  ESP_LOGCONFIG(TAG, "PwsController has no config");
-  LOG_UPDATE_INTERVAL(this);
-  this->check_uart_settings(4800);
+  ESP_LOGI(TAG, "found %u active sensors.", sensors.size());
 }
 
 void PwsController::handle_mqtt_message(const std::string &topic, const std::string &payload) {

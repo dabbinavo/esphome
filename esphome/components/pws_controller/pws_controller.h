@@ -23,6 +23,7 @@ class PwsController : public PollingComponent, public mqtt::CustomMQTTDevice, pu
 
 private:
   void handle_mqtt_message(const std::string &topic, const std::string &payload);
+  void discover_devices();
 
 protected:
   bool read_write(std::vector<uint8_t> &data);
